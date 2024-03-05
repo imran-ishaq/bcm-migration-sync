@@ -10,6 +10,13 @@ com:
         username: ${V1_DATABASE_USER:sa}
         password: ${V1_DATABASE_PASSWORD:root1234}
         driver-class-name: ${V1_DATABASE_DRIVER:com.microsoft.sqlserver.jdbc.SQLServerDriver}
+        hibernate:
+          dialect: org.hibernate.dialect.SQLServer2012Dialect
+          show-sql: false
+          format-sql: false
+          hbm2ddl:
+            auto: update
+        package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
 spring:
   jpa:
     show-sql: false
