@@ -19,8 +19,6 @@ public class AccountProcessor implements ItemProcessor<Account, Account> {
 
     @Override
     public Account process(Account account) {
-        System.out.println(account);
-        return null;
-//        return migrationService.startMigration(account);
+        return migrationService.startMigration(account);
     }
 }

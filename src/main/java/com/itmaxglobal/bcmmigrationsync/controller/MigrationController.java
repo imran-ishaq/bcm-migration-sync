@@ -22,10 +22,6 @@ public class MigrationController {
     Job runBatchJob;
     @GetMapping(value = "/start")
     public void startMigration(){
-        markDuplicate();
-    }
-
-    public void markDuplicate() {
         try {
             Map<String, JobParameter<?>> maps = new HashMap<>();
             maps.put("status", new JobParameter<>(false, Boolean.class));

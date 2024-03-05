@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,6 +14,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -20,7 +23,8 @@ import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "com.itmaxglobal.bcmmigrationsync.bcmv1.repository",
-        entityManagerFactoryRef = "bcmV1ManagerFactory")
+        entityManagerFactoryRef = "bcmV1ManagerFactory",
+        transactionManagerRef = "bcmV1TransactionManager")
 public class bcmV1DBConfiguration {
 
     @Value("${com.bcm.app-db-v1.hibernate.dialect}")
@@ -53,21 +57,19 @@ public class bcmV1DBConfiguration {
 
     @Bean(name = "bcmV1ManagerFactory")
     @Primary
-    public LocalContainerEntityManagerFactoryBean bcmV1ManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(bcmV1DBDataSource());
-        entityManagerFactory.setPackagesToScan(packageScan);
-        entityManagerFactory.setPersistenceUnitName("accountPersistenceUnit");
-        entityManagerFactory.setPersistenceProviderClass(org.hibernate.jpa.HibernatePersistenceProvider.class);
-
-        Properties jpaProperties = new Properties();
+    public LocalContainerEntityManagerFactoryBean bcmV1ManagerFactory(
+            EntityManagerFactoryBuilder builder) {
+        Map<String, String> jpaProperties = new HashMap<>();
         jpaProperties.put(SQL_HIBERNATE_DIALECT_KEY, sqlDialect);
         jpaProperties.put(SQL_HIBERNATE_SHOW_SQL_KEY, showSQL);
         jpaProperties.put(SQL_HIBERNATE_FORMAT_SQL_KEY, formatSQL);
         jpaProperties.put(SQL_HIBERNATE_HBM2DDL_AUTO_KEY, hbm2ddlAuto);
-        entityManagerFactory.setJpaProperties(jpaProperties);
-
-        return entityManagerFactory;
+        return  builder
+                .dataSource(bcmV1DBDataSource())
+                .packages(packageScan)
+                .persistenceUnit("accountPersistenceUnit")
+                .properties(jpaProperties)
+                .build();
     }
 
     @Bean

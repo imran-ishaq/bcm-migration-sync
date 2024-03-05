@@ -39,8 +39,8 @@ public class BatchQueryService {
 
             queryProviderFactoryBean.setDataSource(dataSource);
             queryProviderFactoryBean.setSelectClause("select *");
-            queryProviderFactoryBean.setFromClause("from account");
-            queryProviderFactoryBean.setWhereClause("where is_migrated = 0" );
+            queryProviderFactoryBean.setFromClause("from billing.account");
+            queryProviderFactoryBean.setWhereClause("where isMigrated = 0" );
             queryProviderFactoryBean.setSortKey("id");
 
             JdbcPagingItemReader<Account> itemReader = new JdbcPagingItemReader<>();

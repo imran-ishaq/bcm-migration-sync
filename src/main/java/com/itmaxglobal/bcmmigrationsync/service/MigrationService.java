@@ -1,5 +1,10 @@
 package com.itmaxglobal.bcmmigrationsync.service;
 
+import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImeiMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdnMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.SessionEntityV1;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.SessionMapper;
@@ -9,16 +14,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MigrationService {
-    @Autowired
-    SessionMapper sessionMapper;
+    SessionRepository sessionRepository;
+    ImeiRepository imeiRepository;
+    ImsiMsisdnRepository imsiMsisdnRepository;
     @Lazy
     @Autowired
-    SessionRepository sessionRepository;
-    public SessionEntityV1 startMigration(SessionEntityV1 session){
-        System.out.println("Started Migrating : "+session.toString());
-        sessionRepository.save(sessionMapper.map(session));
-        System.out.println("Successfully Migrated: "+session.toString());
-        return session;
+    public MigrationService(ImeiRepository imeiRepository, ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository){
+        this.sessionRepository = sessionRepository;
+        this.imsiMsisdnRepository = imsiMsisdnRepository;
+        this.imeiRepository = imeiRepository;
+    }
+    public Account startMigration(Account account){
+        System.out.println("Started Migrating : "+account.toString());
+        sessionRepository.save(SessionMapper.map(account));
+        imeiRepository.save(ImeiMapper.map(account));
+        imsiMsisdnRepository.save(ImsiMsisdnMapper.map(account));
+        System.out.println("Successfully Migrated: "+ account);
+        return account;
     }
 
 }
