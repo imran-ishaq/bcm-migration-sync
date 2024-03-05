@@ -1,6 +1,7 @@
 package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.SessionEntityV1;
+import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
