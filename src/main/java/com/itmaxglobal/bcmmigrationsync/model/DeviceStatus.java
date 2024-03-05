@@ -1,4 +1,4 @@
-package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
+package com.itmaxglobal.bcmmigrationsync.model;
 
 import java.util.stream.Stream;
 

@@ -1,6 +1,7 @@
 package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
