@@ -26,10 +26,10 @@ public class SessionMapper{
         session.setSimSwapCounter(account.getSimSwapCounter());
         session.setOperator(account.getOperator());
         session.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
-        session.setStatusUpdateDate(Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setStatusUpdateDate(account.getStatusUpdateDate()==null? new java.util.Date():Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         session.setIsCloned(account.getIsCloned());
         session.setAccountOperator(account.getAccountOperator());
-        session.setLastActivityDate(Date.from(account.getLastActivityDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setLastActivityDate(account.getLastActivityDate()==null? new java.util.Date():Date.from(account.getLastActivityDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
 
         return session;
     }

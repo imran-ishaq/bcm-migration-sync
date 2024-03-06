@@ -21,22 +21,22 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setImei(rs.getString("imei"));
         account.setImsi(rs.getString("imsi"));
         account.setMsisdn(rs.getString("msisdn"));
-        account.setModelType(rs.getString("modelType"));
+        account.setModelType(rs.getString("model_type"));
         account.setCounterfeit(rs.getBoolean("counterfeit"));
-        account.setCreatedDate(rs.getTimestamp("createdDate").toLocalDateTime());
-        account.setRegisteringDate(rs.getTimestamp("registeringDate").toLocalDateTime());
-        account.setUpdatedDate(rs.getTimestamp("updatedDate").toLocalDateTime());
+        account.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
+        account.setRegisteringDate(rs.getTimestamp("registering_date").toLocalDateTime());
+        account.setUpdatedDate(rs.getTimestamp("updated_date").toLocalDateTime());
         account.setRoaming(rs.getBoolean("roaming"));
-        account.setImeiQuantitySupport(rs.getInt("imeiQuantitySupport"));
+        account.setImeiQuantitySupport(rs.getInt("imei_quantity_support"));
         account.setBrand(rs.getString("brand"));
         account.setModel(rs.getString("model"));
-        account.setSimSwapCounter(rs.getInt("simSwapCounter"));
+        account.setSimSwapCounter(rs.getInt("sim_swap_counter"));
         account.setOperator(rs.getInt("operator"));
-        account.setAccountStatus(rs.getInt("accountStatus"));
-        account.setStatusUpdateDate(rs.getTimestamp("statusUpdateDate").toLocalDateTime());
-        account.setIsCloned(rs.getBoolean("isCloned"));
-        account.setAccountOperator(rs.getInt("accountOperator"));
-        account.setLastActivityDate(rs.getTimestamp("lastActivityDate").toLocalDateTime());
+        account.setAccountStatus(rs.getInt("account_status"));
+        account.setStatusUpdateDate(rs.getTimestamp("status_update_date") == null? null: rs.getTimestamp("status_update_date").toLocalDateTime());
+        account.setIsCloned(rs.getBoolean("is_cloned"));
+        account.setAccountOperator(rs.getInt("account_operator"));
+        account.setLastActivityDate(rs.getTimestamp("last_activity_date") == null? null: rs.getTimestamp("last_activity_date").toLocalDateTime());
 
 
         return account;

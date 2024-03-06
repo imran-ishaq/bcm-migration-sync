@@ -25,11 +25,9 @@ public class MigrationService {
         this.imeiRepository = imeiRepository;
     }
     public Account startMigration(Account account){
-        System.out.println("Started Migrating : "+account.toString());
         sessionRepository.save(SessionMapper.map(account));
         imeiRepository.save(ImeiMapper.map(account));
         imsiMsisdnRepository.save(ImsiMsisdnMapper.map(account));
-        System.out.println("Successfully Migrated: "+ account);
         return account;
     }
 

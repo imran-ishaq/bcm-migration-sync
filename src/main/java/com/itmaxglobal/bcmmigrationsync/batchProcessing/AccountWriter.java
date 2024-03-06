@@ -16,7 +16,7 @@ public class AccountWriter implements ItemWriter<Account> {
     @Lazy
     @Autowired
     JdbcTemplate jdbcTemplate;
-    String updateQuery = "UPDATE billing.account SET isMigrated = ? WHERE id = ?";
+    String updateQuery = "UPDATE billing.account SET is_migrated = ? WHERE id = ?";
     @Override
     public void write(Chunk<? extends Account> chunk) {
         List<? extends Account> accounts = chunk.getItems();

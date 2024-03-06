@@ -23,7 +23,7 @@ public class ImeiMapper {
         imei.setBrand(account.getBrand());
         imei.setModel(account.getModel());
         imei.setSimSwapCounter(account.getSimSwapCounter());
-        imei.setStatusUpdateDate(Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? new java.util.Date():Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         imei.setIsCloned(account.getIsCloned());
         return imei;
     }
