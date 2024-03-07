@@ -37,6 +37,7 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setIsCloned(rs.getBoolean("is_cloned"));
         account.setAccountOperator(rs.getInt("account_operator"));
         account.setLastActivityDate(rs.getTimestamp("last_activity_date") == null? null: rs.getTimestamp("last_activity_date").toLocalDateTime());
+        account.setIsMigrated(rs.getBoolean("is_migrated"));
 
 
         return account;

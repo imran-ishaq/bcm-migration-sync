@@ -4,6 +4,7 @@ package com.itmaxglobal.bcmmigrationsync.config;
 
 import com.itmaxglobal.bcmmigrationsync.batchProcessing.AccountProcessor;
 import com.itmaxglobal.bcmmigrationsync.batchProcessing.AccountWriter;
+import com.itmaxglobal.bcmmigrationsync.batchProcessing.listeners.*;
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -31,6 +32,12 @@ public class BatchConfiguration {
     private final ItemReader<Account> accountReader;
     private final AccountProcessor accountProcessor;
     private final AccountWriter accountWriter;
+    private final CustomChunkListener customChunkListener;
+    private final CustomItemProcessListener<Account, Account> customItemProcessListener;
+    private final CustomItemReadListener<Account> customItemReadListener;
+    private final CustomItemWriteListener<Account> customItemWriteListener;
+    private final CustomJobExecutionListener customJobExecutionListener;
+    private final CustomStepExecutionListener customStepExecutionListener;
 
     @Value("${spring.batch.chunk-size}")
     int chunkSize;
@@ -42,12 +49,26 @@ public class BatchConfiguration {
     int setMaxPoolSize;
 
 
-    @Autowired
-    public BatchConfiguration(ItemReader<Account> accountReader, AccountProcessor accountProcessor, AccountWriter accountWriter) {
+    public BatchConfiguration(ItemReader<Account> accountReader, AccountProcessor accountProcessor,
+                              AccountWriter accountWriter, CustomChunkListener customChunkListener,
+                              CustomItemProcessListener<Account, Account> customItemProcessListener,
+                              CustomItemReadListener<Account> customItemReadListener,
+                              CustomItemWriteListener<Account> customItemWriteListener,
+                              CustomJobExecutionListener customJobExecutionListener,
+                              CustomStepExecutionListener customStepExecutionListener) {
         this.accountReader = accountReader;
         this.accountProcessor = accountProcessor;
         this.accountWriter = accountWriter;
+        this.customChunkListener = customChunkListener;
+        this.customItemProcessListener = customItemProcessListener;
+        this.customItemReadListener = customItemReadListener;
+        this.customItemWriteListener = customItemWriteListener;
+        this.customJobExecutionListener = customJobExecutionListener;
+        this.customStepExecutionListener = customStepExecutionListener;
     }
+
+    @Autowired
+
 
     @Bean(name = "batchDataSource")
     @BatchDataSource
@@ -66,6 +87,14 @@ public class BatchConfiguration {
                 .reader(accountReader)
                 .processor(accountProcessor)
                 .writer(accountWriter)
+                .taskExecutor(taskExecutor)
+                .listener(customChunkListener)
+                .listener(customItemProcessListener)
+                .listener(customItemReadListener)
+                .listener(customItemWriteListener)
+                .listener(customJobExecutionListener)
+                .listener(customStepExecutionListener)
+                .allowStartIfComplete(true)
                 .build();
     }
     @Bean

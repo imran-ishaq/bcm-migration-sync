@@ -1,13 +1,12 @@
 package com.itmaxglobal.bcmmigrationsync.service;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImeiMapper;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdnMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImeiMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImsiMsisdnMapper;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
-import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.SessionEntityV1;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.SessionMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

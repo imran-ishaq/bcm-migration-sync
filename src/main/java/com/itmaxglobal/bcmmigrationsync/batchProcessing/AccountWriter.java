@@ -2,6 +2,7 @@ package com.itmaxglobal.bcmmigrationsync.batchProcessing;
 
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
+import com.itmaxglobal.bcmmigrationsync.bcmv1.repository.AccountRepository;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,20 @@ import java.util.List;
 
 @Component
 public class AccountWriter implements ItemWriter<Account> {
+//    @Lazy
+//    @Autowired
+//    JdbcTemplate jdbcTemplate;
+
+    private final AccountRepository accountRepository;
+
     @Lazy
     @Autowired
-    JdbcTemplate jdbcTemplate;
-    String updateQuery = "UPDATE billing.account SET is_migrated = ? WHERE id = ?";
+    public AccountWriter(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
     @Override
     public void write(Chunk<? extends Account> chunk) {
-        List<? extends Account> accounts = chunk.getItems();
-        for(Account account: accounts){
-            jdbcTemplate.update(updateQuery, 1, account.getId());
-        }
+        chunk.getItems().forEach(account -> accountRepository.updateIsMigrated(account.getId()));
     }
 }

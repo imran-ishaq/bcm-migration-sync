@@ -1,6 +1,7 @@
-package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
+package com.itmaxglobal.bcmmigrationsync.bcmv2.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Imei;
 import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class ImeiMapper {
         imei.setBrand(account.getBrand());
         imei.setModel(account.getModel());
         imei.setSimSwapCounter(account.getSimSwapCounter());
-        imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? new java.util.Date():Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? null :Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         imei.setIsCloned(account.getIsCloned());
         return imei;
     }

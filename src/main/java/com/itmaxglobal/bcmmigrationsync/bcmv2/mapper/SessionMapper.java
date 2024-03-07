@@ -1,6 +1,7 @@
-package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
+package com.itmaxglobal.bcmmigrationsync.bcmv2.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Session;
 import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +27,10 @@ public class SessionMapper{
         session.setSimSwapCounter(account.getSimSwapCounter());
         session.setOperator(account.getOperator());
         session.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
-        session.setStatusUpdateDate(account.getStatusUpdateDate()==null? new java.util.Date():Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setStatusUpdateDate(account.getStatusUpdateDate()==null? null : Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
         session.setIsCloned(account.getIsCloned());
         session.setAccountOperator(account.getAccountOperator());
-        session.setLastActivityDate(account.getLastActivityDate()==null? new java.util.Date():Date.from(account.getLastActivityDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setLastActivityDate(account.getLastActivityDate()==null? null:Date.from(account.getLastActivityDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
 
         return session;
     }

@@ -17,6 +17,7 @@ com:
           hbm2ddl:
             auto: update
         package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
+
 spring:
   jpa:
     show-sql: false
@@ -28,8 +29,8 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-    chunk-size: 1
-    page-size: 10
-    fetch-size: 5
-    core-pool-size: 10
-    max-pool-size: 10
+    chunk-size: 10000
+    page-size: 10000
+    fetch-size: 10000
+    core-pool-size: 7
+    max-pool-size: 7
