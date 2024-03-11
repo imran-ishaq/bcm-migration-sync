@@ -25,40 +25,29 @@ public class Account
    @Column(name = "model_type")
    private String modelType;
    private boolean counterfeit;
-   @Column(name = "yearly_billing_fees")
-   private Double yearlyBillingFees;
    @Column(name = "created_date")
    private LocalDateTime createdDate;
    @Column(name = "registering_date")
    private LocalDateTime registeringDate;
    @Column(name = "updated_date")
    private LocalDateTime updatedDate;
-   @Column(name = "billing_date")
-   private LocalDate billingDate;
-   @Column(name = "disabling_date")
-   private LocalDateTime disablingDate;
-   @Column(name = "billing_status")
-   private String billingStatus;
    private boolean roaming;
-   @Column(name = "primary_account")
-   private boolean primaryAccount;
    @Column(name = "imei_quantity_support")
    private Integer imeiQuantitySupport;
    private String brand;
    private String model;
    @Column(name = "sim_swap_counter")
    private Integer simSwapCounter;
+   @Column(name="last_Activity_date")
    private LocalDateTime lastActivityDate;
    private Integer operator;
    private Boolean blocked;
-   private String recentSims;
    @Column(name = "account_status")
    private Integer accountStatus;
    @Column(name = "status_update_date")
    private LocalDateTime statusUpdateDate;
-   private Integer churnStatus;
    @Column(name = "is_cloned")
-   private Boolean isCloned;
+   private Integer isCloned;
    @Column(name = "account_operator")
    private Integer accountOperator;
    @Column(name = "is_migrated")
