@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class ImeiMapper {
 
-    public static Imei map(Account account){
+    public static Imei imeiMap(Account account){
         Imei imei = new Imei();
-        imei.setId(account.getId());
         imei.setImei(account.getImei());
         imei.setModelType(account.getModelType());
         imei.setCounterfeit(account.isCounterfeit() ? 1 : 0);
@@ -24,8 +24,14 @@ public class ImeiMapper {
         imei.setBrand(account.getBrand());
         imei.setModel(account.getModel());
         imei.setSimSwapCounter(account.getSimSwapCounter());
-        imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? null :Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? null :Date.from(account.getStatusUpdateDate().atZone(ZoneId.systemDefault()).toInstant()));
         imei.setIsCloned(account.getIsCloned());
+        return imei;
+    }
+
+    public static Imei existingImeiMap(Imei existingImei, Account account){
+        Imei imei = imeiMap(account);
+        imei.setId(existingImei.getId());
         return imei;
     }
 }

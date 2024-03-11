@@ -6,12 +6,12 @@ import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
+import java.time.ZoneId;
 
 public class SessionMapper{
 
-    public static Session map(Account account){
+    public static Session sessionMap(Account account){
         Session session = new Session();
-        session.setId(account.getId());
         session.setImei(account.getImei());
         session.setImsi(account.getImsi());
         session.setMsisdn(account.getMsisdn());
@@ -27,11 +27,17 @@ public class SessionMapper{
         session.setSimSwapCounter(account.getSimSwapCounter());
         session.setOperator(account.getOperator());
         session.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
-        session.setStatusUpdateDate(account.getStatusUpdateDate()==null? null : Date.from(account.getStatusUpdateDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setStatusUpdateDate(account.getStatusUpdateDate()==null? null : Date.from(account.getStatusUpdateDate().atZone(ZoneId.systemDefault()).toInstant()));
         session.setIsCloned(account.getIsCloned());
         session.setAccountOperator(account.getAccountOperator());
-        session.setLastActivityDate(account.getLastActivityDate()==null? null:Date.from(account.getLastActivityDate().atZone(java.time.ZoneId.systemDefault()).toInstant()));
+        session.setLastActivityDate(account.getLastActivityDate()==null? null:Date.from(account.getLastActivityDate().atZone(ZoneId.systemDefault()).toInstant()));
 
+        return session;
+    }
+
+    public static Session existingSessionMap(Session existingSession, Account account){
+        Session session = sessionMap(account);
+        session.setId(existingSession.getId());
         return session;
     }
 }

@@ -48,7 +48,6 @@ public class Account
    private String model;
    @Column(name = "sim_swap_counter")
    private Integer simSwapCounter;
-   @Column(name = "last_activity_date")
    private LocalDateTime lastActivityDate;
    private Integer operator;
    private Boolean blocked;

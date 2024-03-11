@@ -8,9 +8,8 @@ import java.time.LocalDateTime;
 
 public class ImsiMsisdnMapper {
 
-    public static ImsiMsisdn map(Account account){
+    public static ImsiMsisdn imsiMap(Account account){
         ImsiMsisdn imsiMsisdn = new ImsiMsisdn();
-        imsiMsisdn.setId(account.getId());
         imsiMsisdn.setMsisdn(account.getMsisdn());
         imsiMsisdn.setImsi(account.getImsi());
         imsiMsisdn.setOperator(account.getOperator());
@@ -19,6 +18,12 @@ public class ImsiMsisdnMapper {
         imsiMsisdn.setRoaming(account.isRoaming());
         imsiMsisdn.setRegisteringDate(account.getRegisteringDate());
         imsiMsisdn.setUpdatedAt(account.getUpdatedDate());
+        return imsiMsisdn;
+    }
+
+    public static ImsiMsisdn existingImsiMap(ImsiMsisdn existingImsi, Account account){
+        ImsiMsisdn imsiMsisdn = imsiMap(account);
+        imsiMsisdn.setId(existingImsi.getId());
         return imsiMsisdn;
     }
 }

@@ -37,14 +37,14 @@ public class Session {
     @Column(name = "counterfeit")
     private Integer counterfeit;
 
-    @Column(name = "created_date",updatable = false)
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "registering_date")
+    @Column(name = "registering_date", updatable = false)
     private LocalDateTime registeringDate;
 
     @JsonIgnore
-    @Column(name = "updated_date",updatable = false)
+    @Column(name = "updated_date")
     private LocalDateTime updatedAt;
 
     @Column(name = "roaming")
@@ -80,6 +80,6 @@ public class Session {
     @Column(name = "account_operator")
     private Integer accountOperator;
 
-    @Column(name = "last_activity_date",updatable = false)
+    @Column(name = "last_activity_date")
     private Date lastActivityDate;
 }

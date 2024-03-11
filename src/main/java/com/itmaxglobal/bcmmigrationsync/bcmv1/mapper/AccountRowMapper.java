@@ -1,14 +1,10 @@
 package com.itmaxglobal.bcmmigrationsync.bcmv1.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
-import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.SessionEntityV1;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 
 public class AccountRowMapper implements RowMapper<Account> {
@@ -36,9 +32,8 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setStatusUpdateDate(rs.getTimestamp("status_update_date") == null? null: rs.getTimestamp("status_update_date").toLocalDateTime());
         account.setIsCloned(rs.getBoolean("is_cloned"));
         account.setAccountOperator(rs.getInt("account_operator"));
-        account.setLastActivityDate(rs.getTimestamp("last_activity_date") == null? null: rs.getTimestamp("last_activity_date").toLocalDateTime());
+        account.setLastActivityDate(rs.getTimestamp("last_activity_date_from_account_activity") == null? null: rs.getTimestamp("last_activity_date_from_account_activity").toLocalDateTime());
         account.setIsMigrated(rs.getBoolean("is_migrated"));
-
 
         return account;
     }
