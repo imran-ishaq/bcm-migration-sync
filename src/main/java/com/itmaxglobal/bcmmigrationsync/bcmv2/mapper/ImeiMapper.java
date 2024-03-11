@@ -25,7 +25,7 @@ public class ImeiMapper {
         imei.setModel(account.getModel());
         imei.setSimSwapCounter(account.getSimSwapCounter());
         imei.setStatusUpdateDate(account.getStatusUpdateDate()==null? null :Date.from(account.getStatusUpdateDate().atZone(ZoneId.systemDefault()).toInstant()));
-        imei.setIsCloned(account.getIsCloned());
+        imei.setIsCloned(account.getIsCloned() == 1);
         return imei;
     }
 

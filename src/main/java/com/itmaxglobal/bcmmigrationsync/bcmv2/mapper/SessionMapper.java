@@ -28,7 +28,7 @@ public class SessionMapper{
         session.setOperator(account.getOperator());
         session.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
         session.setStatusUpdateDate(account.getStatusUpdateDate()==null? null : Date.from(account.getStatusUpdateDate().atZone(ZoneId.systemDefault()).toInstant()));
-        session.setIsCloned(account.getIsCloned());
+        session.setIsCloned(account.getIsCloned() == 1);
         session.setAccountOperator(account.getAccountOperator());
         session.setLastActivityDate(account.getLastActivityDate()==null? null:Date.from(account.getLastActivityDate().atZone(ZoneId.systemDefault()).toInstant()));
 
