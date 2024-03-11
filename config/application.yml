@@ -1,0 +1,37 @@
+com:
+  bcm:
+    app-db-v2:
+      url: ${V2_DATABASE_URL:jdbc:mysql://localhost:6033/bcmv2?createDatabaseIfNotExist=true}
+      username: ${V2_DATABASE_USER:root}
+      password: ${V2_DATABASE_PASSWORD:secret}
+      driver-class-name: ${V2_DATABASE_DRIVER:com.mysql.cj.jdbc.Driver}
+    app-db-v1:
+      url: ${V1_DATABASE_URL:jdbc:sqlserver://LAPTOP-31KN05TV\SQLEXPRESS:1433;database=bcm;encrypt=false;trustServerCertificate=false;}
+      username: ${V1_DATABASE_USER:sa}
+      password: ${V1_DATABASE_PASSWORD:root1234}
+      driver-class-name: ${V1_DATABASE_DRIVER:com.microsoft.sqlserver.jdbc.SQLServerDriver}
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        show-sql: false
+        format-sql: false
+        hbm2ddl:
+          auto: update
+      package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
+    goLiveDate: "2024-02-09 00:00:00" # go live date
+
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  # Batch processing
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+    chunk-size: 10000
+    page-size: 10000
+    fetch-size: 10000
+    core-pool-size: 2
+    max-pool-size: 2

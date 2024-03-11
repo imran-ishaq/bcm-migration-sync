@@ -2,8 +2,7 @@ package com.itmaxglobal.bcmmigrationsync.batchProcessing;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.service.MigrationService;
-import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.SessionEntityV1;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,9 +17,7 @@ public class AccountProcessor implements ItemProcessor<Account, Account> {
     }
 
     @Override
-    public Account process(Account account) {
-        System.out.println(account);
-        return null;
-//        return migrationService.startMigration(account);
+    public Account process(@NotNull Account account) {
+        return migrationService.startMigration(account);
     }
 }
