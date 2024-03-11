@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.util.Objects;
 
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
+
 
 @Service
 @Slf4j
@@ -38,9 +40,10 @@ public class BatchQueryService {
             final SqlPagingQueryProviderFactoryBean queryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
 
             queryProviderFactoryBean.setDataSource(dataSource);
-            queryProviderFactoryBean.setSelectClause("select *");
-            queryProviderFactoryBean.setFromClause("from billing.getDataFromAccountAndAccountActivity");
-            queryProviderFactoryBean.setSortKey("id");
+            queryProviderFactoryBean.setSelectClause(ACCOUNT_SELECT_CLAUSE);
+            queryProviderFactoryBean.setFromClause(ACCOUNT_FROM_CLAUSE);
+            queryProviderFactoryBean.setWhereClause(ACCOUNT_WHERE_CLAUSE);
+            queryProviderFactoryBean.setSortKey(ACCOUNT_SORT_KEY);
 
             JdbcPagingItemReader<Account> itemReader = new JdbcPagingItemReader<>();
             itemReader.setDataSource(dataSource);

@@ -6,18 +6,18 @@ import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdn;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Session;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImeiMapper;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImsiMsisdnMapper;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.JOB_DATE_FORMATTER;
@@ -58,10 +58,21 @@ public class MigrationService {
         }
 
         if(session.isPresent()){
-            sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
+            if(Objects.nonNull(session.get().getLastActivityDate()) && Objects.nonNull(account.getLastActivityDate())){
+                LocalDateTime lastActivityDateFromSession = session.get().getLastActivityDate()
+                        .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                if(!this.checkDateDifferenceInMinutes(account.getLastActivityDate(), lastActivityDateFromSession)){
+                    sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
+                }
+            }
         } else {
             sessionRepository.save(SessionMapper.sessionMap(account));
         }
         return account;
+    }
+
+    private boolean checkDateDifferenceInMinutes(LocalDateTime dateFromAccount, LocalDateTime dateFromSession){
+        Duration duration = Duration.between(dateFromAccount, dateFromSession);
+        return duration.toMinutes() <= 15 && duration.toMinutes() >= -15;
     }
 }
