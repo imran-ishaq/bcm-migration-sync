@@ -120,14 +120,6 @@
         <appender-ref ref="file"/>
     </root>
 
-    <!-- Loggers -->
-    <!--    Controller's Loggers-->
-    <logger name="com.itmaxglobal.bcmmigrationsync.controller" additivity="false">
-        <appender-ref ref="controllerDebugFile"/>
-        <appender-ref ref="controllerInfoFile"/>
-        <appender-ref ref="controllerErrorFile"/>
-    </logger>
-
     <!--    Batch Listener Loggers-->
     <logger name="com.itmaxglobal.bcmmigrationsync.batchProcessing.listeners" level="INFO" additivity="false">
         <appender-ref ref="serviceDebugFile"/>
