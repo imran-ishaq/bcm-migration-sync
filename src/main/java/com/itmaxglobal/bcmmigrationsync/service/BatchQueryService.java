@@ -35,7 +35,7 @@ public class BatchQueryService {
         this.dataSource = dataSource;
     }
 
-    public ItemReader<Account> executeSessionQuery() {
+    public ItemReader<Account> executeAccountQuery() {
         try{
             final SqlPagingQueryProviderFactoryBean queryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
 

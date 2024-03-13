@@ -48,7 +48,7 @@ public class BatchConfiguration {
     @Value("${spring.batch.max-pool-size}")
     int setMaxPoolSize;
 
-
+    @Autowired
     public BatchConfiguration(ItemReader<Account> accountReader, AccountProcessor accountProcessor,
                               AccountWriter accountWriter, CustomChunkListener customChunkListener,
                               CustomItemProcessListener<Account, Account> customItemProcessListener,
@@ -66,8 +66,6 @@ public class BatchConfiguration {
         this.customJobExecutionListener = customJobExecutionListener;
         this.customStepExecutionListener = customStepExecutionListener;
     }
-
-    @Autowired
 
 
     @Bean(name = "batchDataSource")

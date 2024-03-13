@@ -135,4 +135,11 @@
         <appender-ref ref="serviceErrorFile"/>
     </logger>
 
+    <!--    Run Batch Listener Loggers-->
+    <logger name="com.itmaxglobal.bcmmigrationsync.config.RunJob" level="INFO" additivity="false">
+        <appender-ref ref="serviceDebugFile"/>
+        <appender-ref ref="serviceInfoFile"/>
+        <appender-ref ref="serviceErrorFile"/>
+    </logger>
+
 </configuration>

@@ -22,7 +22,7 @@ public class AccountReader {
     @Bean
     @StepScope
     public ItemReader<Account> reader() {
-        return this.batchQueryService.executeSessionQuery();
+        return this.batchQueryService.executeAccountQuery();
     }
 
 }
