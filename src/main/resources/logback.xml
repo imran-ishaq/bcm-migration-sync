@@ -113,6 +113,22 @@
         </filter>
     </appender>
 
+    <appender name="migrationServiceFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/migration-service-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/migration-service-info-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file:%line] - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
 
     <!-- Root Logger -->
     <root level="INFO">
@@ -132,6 +148,11 @@
         <appender-ref ref="serviceDebugFile"/>
         <appender-ref ref="serviceInfoFile"/>
         <appender-ref ref="serviceErrorFile"/>
+    </logger>
+
+    <!--    Migration Service Loggers-->
+    <logger name="com.itmaxglobal.bcmmigrationsync.service" level="INFO" additivity="false">
+        <appender-ref ref="migrationServiceFile"/>
     </logger>
 
 </configuration>
