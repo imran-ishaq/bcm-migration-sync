@@ -10,6 +10,7 @@ import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.JOB_DATE_FORMATTER;
 
 @Service
+@Slf4j
 public class MigrationService {
     SessionRepository sessionRepository;
     ImeiRepository imeiRepository;
@@ -46,15 +48,23 @@ public class MigrationService {
         Optional<Session> session = sessionRepository.findFirstByImeiAndImsiAndMsisdnAndCreatedAtGreaterThanOrderByCreatedAtDesc(account.getImei(), account.getImsi(), account.getMsisdn(), goLiveDate);
 
         if(imei.isPresent()){
-             imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
+            log.info("Already present imei-[{}]", imei.get());
+            Imei updatedImei = imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
+            log.info("updated imei-[{}]", updatedImei);
         } else {
-            imeiRepository.save(ImeiMapper.imeiMap(account));
+            log.info("Saving new imei");
+            Imei newImei = imeiRepository.save(ImeiMapper.imeiMap(account));
+            log.info("New imei saved-[{}]", newImei);
         }
 
         if(imsiMsisdn.isPresent()){
-            imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account));
+            log.info("Already present imsi-[{}]", imsiMsisdn.get());
+            ImsiMsisdn updatedImsi = imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account));
+            log.info("updated imsi-[{}]", updatedImsi);
         } else {
-            imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account));
+            log.info("Saving new imsi");
+            ImsiMsisdn newImsi = imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account));
+            log.info("New imsi saved-[{}]", newImsi);
         }
 
         if(session.isPresent()){
@@ -62,11 +72,15 @@ public class MigrationService {
                 LocalDateTime lastActivityDateFromSession = session.get().getLastActivityDate()
                         .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                 if(!this.checkDateDifferenceInMinutes(account.getLastActivityDate(), lastActivityDateFromSession)){
-                    sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
+                    log.info("Already present session-[{}]", session.get());
+                    Session updatedSession = sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
+                    log.info("updated session-[{}]", updatedSession);
                 }
             }
         } else {
-            sessionRepository.save(SessionMapper.sessionMap(account));
+            log.info("Saving new session");
+            Session newSession = sessionRepository.save(SessionMapper.sessionMap(account));
+            log.info("New session saved-[{}]", newSession);
         }
         return account;
     }
