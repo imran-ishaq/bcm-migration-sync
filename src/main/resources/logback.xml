@@ -121,7 +121,7 @@
     </root>
 
     <!--    Batch Listener Loggers-->
-    <logger name="com.itmaxglobal.bcmmigrationsync.batchProcessing.listeners" level="INFO" additivity="false">
+    <logger name="com.itmaxglobal.bcmmigrationsync.batchProcessing" level="INFO" additivity="false">
         <appender-ref ref="serviceDebugFile"/>
         <appender-ref ref="serviceInfoFile"/>
         <appender-ref ref="serviceErrorFile"/>
