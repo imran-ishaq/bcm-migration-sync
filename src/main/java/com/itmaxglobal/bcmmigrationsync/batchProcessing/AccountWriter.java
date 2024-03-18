@@ -3,6 +3,7 @@ package com.itmaxglobal.bcmmigrationsync.batchProcessing;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.bcmv1.repository.AccountRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.UPDATE_ACCOUNT_ACTIVITY_QUERY;
 
 @Component
+@Slf4j
 public class AccountWriter implements ItemWriter<Account> {
 
     private final JdbcTemplate jdbcTemplate;
@@ -30,5 +32,6 @@ public class AccountWriter implements ItemWriter<Account> {
     public void write(Chunk<? extends Account> chunk) {
         chunk.getItems().forEach(account -> accountRepository.updateIsMigrated(account.getId()));
         chunk.getItems().forEach(account -> jdbcTemplate.update(UPDATE_ACCOUNT_ACTIVITY_QUERY, account.getId()));
+        log.info("Account id-[{}] imei-[{}]", chunk.getItems().get(0).getId(), chunk.getItems().get(0).getImei());
     }
 }
