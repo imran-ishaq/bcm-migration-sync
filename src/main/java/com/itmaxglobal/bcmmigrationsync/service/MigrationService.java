@@ -24,7 +24,6 @@ import java.util.Optional;
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.JOB_DATE_FORMATTER;
 
 @Service
-@Slf4j
 public class MigrationService {
     SessionRepository sessionRepository;
     ImeiRepository imeiRepository;
@@ -48,23 +47,15 @@ public class MigrationService {
         Optional<Session> session = sessionRepository.findFirstByImeiAndImsiAndMsisdnAndCreatedAtGreaterThanOrderByCreatedAtDesc(account.getImei(), account.getImsi(), account.getMsisdn(), goLiveDate);
 
         if(imei.isPresent()){
-            log.info("Already present imei-[{}]", imei.get());
-            Imei updatedImei = imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
-            log.info("updated imei-[{}]", updatedImei);
+            imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
         } else {
-            log.info("Saving new imei");
-            Imei newImei = imeiRepository.save(ImeiMapper.imeiMap(account));
-            log.info("New imei saved-[{}]", newImei);
+            imeiRepository.save(ImeiMapper.imeiMap(account));
         }
 
         if(imsiMsisdn.isPresent()){
-            log.info("Already present imsi-[{}]", imsiMsisdn.get());
-            ImsiMsisdn updatedImsi = imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account));
-            log.info("updated imsi-[{}]", updatedImsi);
+            imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account));
         } else {
-            log.info("Saving new imsi");
-            ImsiMsisdn newImsi = imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account));
-            log.info("New imsi saved-[{}]", newImsi);
+            imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account));
         }
 
         if(session.isPresent()){
@@ -72,15 +63,11 @@ public class MigrationService {
                 LocalDateTime lastActivityDateFromSession = session.get().getLastActivityDate()
                         .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                 if(!this.checkDateDifferenceInMinutes(account.getLastActivityDate(), lastActivityDateFromSession)){
-                    log.info("Already present session-[{}]", session.get());
-                    Session updatedSession = sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
-                    log.info("updated session-[{}]", updatedSession);
+                    sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
                 }
             }
         } else {
-            log.info("Saving new session");
-            Session newSession = sessionRepository.save(SessionMapper.sessionMap(account));
-            log.info("New session saved-[{}]", newSession);
+            sessionRepository.save(SessionMapper.sessionMap(account));
         }
         return account;
     }
