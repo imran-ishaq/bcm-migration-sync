@@ -26,16 +26,13 @@ public class RunJob {
     private final JobLauncher jobLauncher;
     private final Job runBatchJob;
 
-    private ApplicationContext appContext;
-
     @Value("${spring.batch.jobCheck}")
     private boolean jobCheck;
 
     @Autowired
-    public RunJob(JobLauncher jobLauncher, Job runBatchJob, ApplicationContext appContext) {
+    public RunJob(JobLauncher jobLauncher, Job runBatchJob) {
         this.jobLauncher = jobLauncher;
         this.runBatchJob = runBatchJob;
-        this.appContext = appContext;
     }
 
     @EventListener(ApplicationReadyEvent.class)
