@@ -37,4 +37,4 @@ spring:
     fetch-size: 10000
     core-pool-size: 2
     max-pool-size: 2
-    jobCheck: false
+    jobCheck: true

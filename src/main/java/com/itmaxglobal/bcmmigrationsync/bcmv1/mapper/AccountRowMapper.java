@@ -1,6 +1,7 @@
 package com.itmaxglobal.bcmmigrationsync.bcmv1.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
+import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -28,7 +29,8 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setModel(rs.getString("model"));
         account.setSimSwapCounter(rs.getInt("sim_swap_counter"));
         account.setOperator(rs.getInt("operator"));
-        account.setAccountStatus(rs.getInt("account_status"));
+        account.setBlocked(rs.getBoolean("blocked"));
+        account.setAccountStatus(rs.getString("account_status") == null ? DeviceStatus.Unknown.getCode() : rs.getInt("account_status"));
         account.setStatusUpdateDate(rs.getTimestamp("status_update_date") == null? null: rs.getTimestamp("status_update_date").toLocalDateTime());
         account.setIsCloned(rs.getInt("is_cloned"));
         account.setAccountOperator(rs.getInt("account_operator"));

@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
 
-    Optional<Session> findFirstByImeiAndImsiAndMsisdnAndCreatedAtGreaterThanOrderByCreatedAtDesc(String imei, String imsi, String msisdn, LocalDateTime createdAt);
+    Optional<Session> findFirstByImeiAndImsiAndMsisdnOrderByCreatedAtDesc(String imei, String imsi, String msisdn);
 
 }

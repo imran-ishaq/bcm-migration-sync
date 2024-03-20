@@ -56,7 +56,7 @@ public class Imei {
     private Boolean isStolen;
 
     @Column(name = "account_status")
-    private DeviceStatus imeiStatus;
+    private Integer imeiStatus;
 
     @Column(name = "status_update_date")
     private Date statusUpdateDate;

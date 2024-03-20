@@ -20,7 +20,8 @@ public class ImeiMapper {
         imei.setRegisteringDate(account.getRegisteringDate());
         imei.setCreatedAt(account.getCreatedDate());
         imei.setImeiQuantitySupport(account.getImeiQuantitySupport());
-        imei.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
+        imei.setIsStolen(account.getBlocked());
+        imei.setImeiStatus(account.getAccountStatus());
         imei.setBrand(account.getBrand());
         imei.setModel(account.getModel());
         imei.setSimSwapCounter(account.getSimSwapCounter());

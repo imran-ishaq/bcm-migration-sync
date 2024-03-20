@@ -40,11 +40,11 @@ public class MigrationService {
         this.imeiRepository = imeiRepository;
     }
     public Account startMigration(Account account){
-        LocalDateTime goLiveDate = LocalDateTime.parse(goLiveDateInStr, DateTimeFormatter.ofPattern(JOB_DATE_FORMATTER));
+//        LocalDateTime goLiveDate = LocalDateTime.parse(goLiveDateInStr, DateTimeFormatter.ofPattern(JOB_DATE_FORMATTER));
 
         Optional<Imei> imei = imeiRepository.findFirstByImeiOrderByCreatedAtDesc(account.getImei());
         Optional<ImsiMsisdn> imsiMsisdn = imsiMsisdnRepository.findFirstByImsiAndMsisdnOrderByCreatedAtDesc(account.getImsi(), account.getMsisdn());
-        Optional<Session> session = sessionRepository.findFirstByImeiAndImsiAndMsisdnAndCreatedAtGreaterThanOrderByCreatedAtDesc(account.getImei(), account.getImsi(), account.getMsisdn(), goLiveDate);
+        Optional<Session> session = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByCreatedAtDesc(account.getImei(), account.getImsi(), account.getMsisdn());
 
         if(imei.isPresent()){
             imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
