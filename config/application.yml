@@ -8,9 +8,9 @@ com:
       password: ${V2_DATABASE_PASSWORD:secret}
       driver-class-name: ${V2_DATABASE_DRIVER:com.mysql.cj.jdbc.Driver}
     app-db-v1:
-      url: ${V1_DATABASE_URL:jdbc:sqlserver://localhost:1433;database=bcm;encrypt=false;trustServerCertificate=false;}
-      username: ${V1_DATABASE_USER:sa}
-      password: ${V1_DATABASE_PASSWORD:Root@1234}
+      url: ${V1_DATABASE_URL:jdbc:sqlserver://LAPTOP\SQLEXPRESS:1433;database=bcm;encrypt=false;trustServerCertificate=false;integratedSecurity=true}
+      username: ${V1_DATABASE_USER:}
+      password: ${V1_DATABASE_PASSWORD:}
       driver-class-name: ${V1_DATABASE_DRIVER:com.microsoft.sqlserver.jdbc.SQLServerDriver}
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
@@ -37,4 +37,4 @@ spring:
     fetch-size: 10000
     core-pool-size: 2
     max-pool-size: 2
-    jobCheck: true
+    jobCheck: false
