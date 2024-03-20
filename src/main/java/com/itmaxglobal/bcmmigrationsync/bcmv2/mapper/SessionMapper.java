@@ -26,7 +26,8 @@ public class SessionMapper{
         session.setModel(account.getModel());
         session.setSimSwapCounter(account.getSimSwapCounter());
         session.setOperator(account.getOperator());
-        session.setImeiStatus(DeviceStatus.valueOf(account.getAccountStatus()));
+        session.setIsStolen(account.getBlocked());
+        session.setImeiStatus(account.getAccountStatus());
         session.setStatusUpdateDate(account.getStatusUpdateDate()==null? null : Date.from(account.getStatusUpdateDate().atZone(ZoneId.systemDefault()).toInstant()));
         session.setIsCloned(account.getIsCloned() == 1);
         session.setAccountOperator(account.getAccountOperator());

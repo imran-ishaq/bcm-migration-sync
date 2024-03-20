@@ -37,10 +37,10 @@ public class Session {
     @Column(name = "counterfeit")
     private Integer counterfeit;
 
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "created_date")
     private LocalDateTime createdAt;
 
-    @Column(name = "registering_date", updatable = false)
+    @Column(name = "registering_date")
     private LocalDateTime registeringDate;
 
     @JsonIgnore
@@ -69,7 +69,7 @@ public class Session {
     private Boolean isStolen;
 
     @Column(name = "account_status")
-    private DeviceStatus imeiStatus;
+    private Integer imeiStatus;
 
     @Column(name = "status_update_date")
     private Date statusUpdateDate;
