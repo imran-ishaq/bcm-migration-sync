@@ -37,8 +37,8 @@ public class RunJob {
 
     @EventListener(ApplicationReadyEvent.class)
     public void startMigrationJob() {
-        try {
-            while (jobCheck) {
+        while (jobCheck) {
+            try {
                 log.info("Batch processing is start...");
 
                 Map<String, JobParameter<?>> maps = new HashMap<>();
@@ -54,9 +54,9 @@ public class RunJob {
                 Instant end = Instant.now();
                 Duration duration = Duration.between(start, end);
                 log.info("Batch Job Time Execution-[" + duration.getSeconds() + "s]");
+            } catch (Exception ex) {
+                log.error("Batch Job Exception-[{}]", ex.getMessage());
             }
-        } catch (Exception ex) {
-            log.error("Batch Job Exception-[{}]", ex.getMessage());
         }
     }
 }

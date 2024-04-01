@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.UPDATE_ACCOUNT_ACTIVITY_QUERY;
 
 @Component
@@ -30,8 +32,16 @@ public class AccountWriter implements ItemWriter<Account> {
 
     @Override
     public void write(Chunk<? extends Account> chunk) {
-        chunk.getItems().forEach(account -> accountRepository.updateIsMigrated(account.getId()));
-        chunk.getItems().forEach(account -> jdbcTemplate.update(UPDATE_ACCOUNT_ACTIVITY_QUERY, account.getId()));
-        log.info("Account id-[{}] imei-[{}]", chunk.getItems().get(0).getId(), chunk.getItems().get(0).getImei());
+        chunk.getItems().forEach(account -> {
+            if(Objects.nonNull(account)){
+                accountRepository.updateIsMigrated(account.getId());
+            }
+        });
+        chunk.getItems().forEach(account -> {
+            if(Objects.nonNull(account)){
+                jdbcTemplate.update(UPDATE_ACCOUNT_ACTIVITY_QUERY, account.getId());
+            }
+        });
+        log.info("Account id-[{}] imei-[{}]", chunk.getItems().get(chunk.size() - 1).getId(), chunk.getItems().get(chunk.size() - 1).getImei());
     }
 }
