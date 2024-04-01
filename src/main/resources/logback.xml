@@ -150,9 +150,11 @@
         <appender-ref ref="serviceErrorFile"/>
     </logger>
 
-<!--    &lt;!&ndash;    Migration Service Loggers&ndash;&gt;-->
-<!--    <logger name="com.itmaxglobal.bcmmigrationsync.service" level="INFO" additivity="false">-->
-<!--        <appender-ref ref="migrationServiceFile"/>-->
-<!--    </logger>-->
+    <!--    Migration Service Loggers-->
+    <logger name="com.itmaxglobal.bcmmigrationsync.service" level="INFO" additivity="false">
+        <appender-ref ref="serviceDebugFile"/>
+        <appender-ref ref="serviceInfoFile"/>
+        <appender-ref ref="serviceErrorFile"/>
+    </logger>
 
 </configuration>
