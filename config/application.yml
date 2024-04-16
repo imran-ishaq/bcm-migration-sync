@@ -20,6 +20,9 @@ com:
           auto: update
       package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
     goLiveDate: "2024-02-09 00:00:00" # go live date
+    email:
+      from: imranishaq024@gmail.com
+      to: imranishaq024@gmail.com
 
 spring:
   jpa:
@@ -38,3 +41,15 @@ spring:
     core-pool-size: 2
     max-pool-size: 2
     jobCheck: true
+  # SMTP Properties
+  mail:
+    host: smtp.gmail.com
+    username: imranishaq024@gmail.com
+    password: agstcosvctfelvva #duevbhpicvnhgexi
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

@@ -10,38 +10,47 @@ import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
+import com.itmaxglobal.bcmmigrationsync.util.EmailUtil;
+import jakarta.mail.MessagingException;
+import jakarta.transaction.TransactionalException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.RecoverableDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.CannotCreateTransactionException;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.itmaxglobal.bcmmigrationsync.util.Constants.JOB_DATE_FORMATTER;
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
 
 @Service
 @Slf4j
 public class MigrationService {
-    SessionRepository sessionRepository;
-    ImeiRepository imeiRepository;
-    ImsiMsisdnRepository imsiMsisdnRepository;
 
-    @Value("${com.bcm.goLiveDate}")
-    private String goLiveDateInStr;
+    private final SessionRepository sessionRepository;
+    private final ImeiRepository imeiRepository;
+    private final ImsiMsisdnRepository imsiMsisdnRepository;
+    private final EmailUtil emailUtil;
+    @Autowired
+    ApplicationContext appContext;
 
     @Lazy
     @Autowired
-    public MigrationService(ImeiRepository imeiRepository, ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository){
+    public MigrationService(ImeiRepository imeiRepository, ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository, EmailUtil emailUtil){
         this.sessionRepository = sessionRepository;
         this.imsiMsisdnRepository = imsiMsisdnRepository;
         this.imeiRepository = imeiRepository;
+        this.emailUtil = emailUtil;
     }
-    public Account startMigration(Account account){
+    public Account startMigration(Account account) throws MessagingException, InterruptedException {
 //        LocalDateTime goLiveDate = LocalDateTime.parse(goLiveDateInStr, DateTimeFormatter.ofPattern(JOB_DATE_FORMATTER));
         try {
             Optional<Imei> imei = imeiRepository.findFirstByImeiOrderByCreatedAtDesc(account.getImei());
@@ -75,6 +84,11 @@ public class MigrationService {
         } catch (Exception ex){
             log.info("Exception from MigrationService()");
             log.error(ex.getMessage());
+            if(ex instanceof RecoverableDataAccessException || ex.getCause() instanceof TransactionException ||
+                ex instanceof DataAccessResourceFailureException || ex instanceof CannotCreateTransactionException) {
+                emailUtil.sendEmail(EMAIL_SUBJECT, EMAIL_TEMPLATE_NAME, ex);
+                System.exit(SpringApplication.exit(appContext,()->0));
+            }
         }
         return null;
     }
