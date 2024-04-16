@@ -36,7 +36,7 @@ public class BatchQueryService {
     }
 
     public ItemReader<Account> executeAccountQuery() {
-        try{
+        try {
             final SqlPagingQueryProviderFactoryBean queryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
 
             queryProviderFactoryBean.setDataSource(dataSource);
@@ -55,7 +55,7 @@ public class BatchQueryService {
             return itemReader;
 
         } catch (Exception ex){
-            log.info("Exception from ExecuteSessionQuery()");
+            log.info("Exception from ExecuteAccountQuery()");
             log.error(ex.getMessage());
         }
         return null;
