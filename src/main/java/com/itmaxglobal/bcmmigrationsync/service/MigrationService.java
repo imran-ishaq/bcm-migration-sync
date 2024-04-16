@@ -84,10 +84,10 @@ public class MigrationService {
         } catch (Exception ex){
             log.info("Exception from MigrationService()");
             log.error(ex.getMessage());
-            if(ex instanceof RecoverableDataAccessException || ex.getCause() instanceof TransactionException ||
+            if(ex instanceof RecoverableDataAccessException || ex instanceof TransactionException ||
                 ex instanceof DataAccessResourceFailureException || ex instanceof CannotCreateTransactionException) {
                 emailUtil.sendEmail(EMAIL_SUBJECT, EMAIL_TEMPLATE_NAME, ex);
-                System.exit(SpringApplication.exit(appContext,()->0));
+                System.exit(SpringApplication.exit(appContext, () -> 0));
             }
         }
         return null;
