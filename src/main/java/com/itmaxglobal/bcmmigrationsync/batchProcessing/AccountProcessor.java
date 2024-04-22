@@ -2,6 +2,7 @@ package com.itmaxglobal.bcmmigrationsync.batchProcessing;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.service.MigrationService;
+import jakarta.mail.MessagingException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class AccountProcessor implements ItemProcessor<Account, Account> {
     }
 
     @Override
-    public Account process(@NotNull Account account) {
+    public Account process(@NotNull Account account) throws MessagingException, InterruptedException {
         return migrationService.startMigration(account);
     }
 }

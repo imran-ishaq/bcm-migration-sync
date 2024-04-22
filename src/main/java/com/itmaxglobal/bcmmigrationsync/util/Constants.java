@@ -15,5 +15,7 @@ public class Constants {
     public static final String ACCOUNT_FROM_CLAUSE = "from bcm.billing.account ac left join bcm.billing.account_activity aa on ac.id = aa.account_id ";
     public static final String ACCOUNT_WHERE_CLAUSE = " where ac.is_migrated = 0";
     public static final String ACCOUNT_SORT_KEY = "id";
+    public static final String EMAIL_SUBJECT = "Migration Service Stopped";
+    public static final String EMAIL_TEMPLATE_NAME = "email_template";
 
 }

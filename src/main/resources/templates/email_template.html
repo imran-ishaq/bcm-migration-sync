@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Example Email Template</title>
+    <style>
+        /* Add styles here for your email template */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F7F7;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border: 1px solid #CCCCCC;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Exception</h1>
+            </div>
+            <div class="content" th:align="center">
+                <p>This is informed you that migration service has been stopped due to some exception at
+                    <span th:text="${date}"></span>.</p>
+            </div>
+
+            <div class="content" th:align="left">
+                <label style="display: flex">Message:&nbsp;<p style="margin-top: 0" th:text="${reason}"></p></label>
+            </div>
+
+            <div class="content" th:align="center">
+                <label style="display: flex">Ex Class:&nbsp;<p style="margin-top: 0" th:text="${exceptionClassName}"></p></label>
+            </div>
+
+            <p th:align="center" style="color:#3f3f3f;font-size:12px;font-style:normal;
+                    line-height:14px;font-weight:400;
+                    font-family:'Roboto','Arial',sans-serif">
+                This is an automatically generated e-mail.
+                Please do not reply to this e-mail.
+            </p>
+        </div>
+    </body>
+</html>

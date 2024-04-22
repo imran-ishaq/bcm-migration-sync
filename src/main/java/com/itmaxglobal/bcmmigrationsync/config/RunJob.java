@@ -1,5 +1,7 @@
 package com.itmaxglobal.bcmmigrationsync.config;
 
+import com.itmaxglobal.bcmmigrationsync.util.EmailUtil;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -25,6 +27,10 @@ public class RunJob {
 
     private final JobLauncher jobLauncher;
     private final Job runBatchJob;
+
+    @Autowired
+    ApplicationContext applicationContext;
+
 
     @Value("${spring.batch.jobCheck}")
     private boolean jobCheck;
