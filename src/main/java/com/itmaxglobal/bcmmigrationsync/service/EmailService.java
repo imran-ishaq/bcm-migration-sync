@@ -12,11 +12,14 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
 
 @Service
 @Slf4j
@@ -32,27 +35,37 @@ public class EmailService {
     }
 
     @Async
-    public void sendEmail(String emailFrom, String emailTo, String subject, String templateName, String exceptionMessage, String exceptionClassName) throws MessagingException {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        Context context = new Context();
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+    public void sendEmail(String emailFrom, String emailTo, String subject, String templateName, String exceptionMessage, String exceptionClassName) {
+        try {
 
-//        context.setVariable("jobStatus",jobStatus);
-        String date = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-        context.setVariable("date", date);
-        context.setVariable("exceptionClassName", exceptionClassName);
-        context.setVariable("reason",exceptionMessage);
+            MimeMessage message = javaMailSender.createMimeMessage();
+            String[] setCCs = new String[]{IMRAN_ITMAX_EMAIL, ZAIN_ITMAX_EMAIL, LARA_ITMAX_EMAIL, MOHIT_ITMAX_EMAIL,
+                    GABY_ITMAX_EMAIL, CHRISTIAN_ITMAX_EMAIL, CHARBEL_ITMAX_EMAIL};
 
-        helper.setFrom(emailFrom);
-        helper.setTo(emailTo);
-        helper.setSubject(subject);
-        helper.setReplyTo("no-reply@gmail.com");
+            Context context = new Context();
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
-        String html = templateEngine.process(templateName, context);
+            String date = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+            context.setVariable("date", date);
+            context.setVariable("exceptionClassName", exceptionClassName);
+            context.setVariable("reason",exceptionMessage);
 
-        helper.setText(html,true);
-        javaMailSender.send(message);
+            helper.setFrom(emailFrom);
+            helper.setTo(emailTo);
+            helper.setSubject(subject);
+            helper.setCc(setCCs);
+            helper.setReplyTo(SMTP_REPLY);
 
-        log.info("Mail Sent Successfully");
+            String html = templateEngine.process(templateName, context);
+
+            helper.setText(html,true);
+            javaMailSender.send(message);
+
+            log.info("Mail Sent Successfully");
+
+        } catch (MessagingException e){
+            log.info("Exception from EmailService()");
+            log.error(e.getMessage());
+        }
     }
 }

@@ -50,8 +50,7 @@ public class MigrationService {
         this.imeiRepository = imeiRepository;
         this.emailUtil = emailUtil;
     }
-    public Account startMigration(Account account) throws MessagingException, InterruptedException {
-//        LocalDateTime goLiveDate = LocalDateTime.parse(goLiveDateInStr, DateTimeFormatter.ofPattern(JOB_DATE_FORMATTER));
+    public Account startMigration(Account account) {
         try {
             Optional<Imei> imei = imeiRepository.findFirstByImeiOrderByCreatedAtDesc(account.getImei());
             Optional<ImsiMsisdn> imsiMsisdn = imsiMsisdnRepository.findFirstByImsiAndMsisdnOrderByCreatedAtDesc(account.getImsi(), account.getMsisdn());

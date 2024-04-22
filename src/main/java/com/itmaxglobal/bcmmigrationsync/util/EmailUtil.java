@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class EmailUtil {
     private final EmailService emailService;
@@ -21,9 +23,11 @@ public class EmailUtil {
         this.emailService = emailService;
     }
 
-    public void sendEmail(String subject, String templateName, Exception ex) throws MessagingException {
+    public void sendEmail(String subject, String templateName, Exception ex) {
         if(!emailFrom.isEmpty() && !emailTo.isEmpty()){
-            emailService.sendEmail(emailFrom, emailTo, subject, templateName, ex.getMessage(), ex.getClass().getSimpleName());
+            emailService.sendEmail(emailFrom, emailTo, subject, templateName,
+                    Objects.nonNull(ex) ? ex.getMessage() : "Test",
+                    Objects.nonNull(ex) ? ex.getClass().getSimpleName() : "Test");
         }
     }
 }
