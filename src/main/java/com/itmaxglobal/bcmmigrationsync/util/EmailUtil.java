@@ -22,7 +22,7 @@ public class EmailUtil {
     }
 
     public void sendEmail(String subject, String templateName, Exception ex) throws MessagingException {
-        if(!emailFrom.isEmpty()){
+        if(!emailFrom.isEmpty() && !emailTo.isEmpty()){
             emailService.sendEmail(emailFrom, emailTo, subject, templateName, ex.getMessage(), ex.getClass().getSimpleName());
         }
     }

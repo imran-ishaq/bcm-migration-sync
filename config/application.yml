@@ -21,8 +21,8 @@ com:
       package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
     goLiveDate: "2024-02-09 00:00:00" # go live date
     email:
-      from: imranishaq024@gmail.com
-      to: imranishaq024@gmail.com
+      from: # sender email
+      to: # receiver email
 
 spring:
   jpa:
@@ -44,8 +44,8 @@ spring:
   # SMTP Properties
   mail:
     host: smtp.gmail.com
-    username: imranishaq024@gmail.com
-    password: agstcosvctfelvva #duevbhpicvnhgexi
+    username: # username
+    password: # password here
     port: 587
     properties:
       mail:
