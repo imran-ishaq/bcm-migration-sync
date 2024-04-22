@@ -18,7 +18,7 @@ public class AccountProcessor implements ItemProcessor<Account, Account> {
     }
 
     @Override
-    public Account process(@NotNull Account account) throws MessagingException, InterruptedException {
+    public Account process(@NotNull Account account) {
         return migrationService.startMigration(account);
     }
 }
