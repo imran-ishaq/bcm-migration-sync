@@ -43,7 +43,7 @@ spring:
     jobCheck: false
   # SMTP Properties
   mail:
-    host: itmaxglobal-com.mail.protection.outlook.com
+    host: mail.itmaxglobal.com
     username: bcmv2.alerts@itmaxglobal.com
     password: P)mn2@l3rT$4M0nT3@m
     port: 25
