@@ -3,7 +3,6 @@ package com.itmaxglobal.bcmmigrationsync.controller;
 import com.itmaxglobal.bcmmigrationsync.util.EmailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.itmaxglobal.bcmmigrationsync.util.Constants.EMAIL_SUBJECT;
-import static com.itmaxglobal.bcmmigrationsync.util.Constants.EMAIL_TEMPLATE_NAME;
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
 
 @RestController
 @RequestMapping(value = "migration")
@@ -41,7 +39,7 @@ public class MigrationController {
 
     @GetMapping(value = "/check-smtp")
     public ResponseEntity<?> testEmail(){
-        emailUtil.sendEmail(EMAIL_SUBJECT, EMAIL_TEMPLATE_NAME, null);
+        emailUtil.sendEmail(EMAIL_SUBJECT, EMAIL_TEST_TEMPLATE_NAME, null);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }

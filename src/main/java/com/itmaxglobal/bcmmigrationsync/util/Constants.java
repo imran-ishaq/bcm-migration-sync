@@ -17,6 +17,7 @@ public class Constants {
     public static final String ACCOUNT_SORT_KEY = "id";
     public static final String EMAIL_SUBJECT = "Migration Service Stopped";
     public static final String EMAIL_TEMPLATE_NAME = "email_template";
+    public static final String EMAIL_TEST_TEMPLATE_NAME = "email_test_template";
     public static final String SMTP_REPLY = "no-reply@gmail.com";
     public static final String IMRAN_ITMAX_EMAIL = "imran.ishaq@itmaxglobal.com";
     public static final String ZAIN_ITMAX_EMAIL = "zain.abideen@itmaxglobal.com";

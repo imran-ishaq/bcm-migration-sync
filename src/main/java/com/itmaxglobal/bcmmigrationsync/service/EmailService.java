@@ -37,7 +37,6 @@ public class EmailService {
     @Async
     public void sendEmail(String emailFrom, String emailTo, String subject, String templateName, String exceptionMessage, String exceptionClassName) {
         try {
-
             MimeMessage message = javaMailSender.createMimeMessage();
             String[] setCCs = new String[]{IMRAN_ITMAX_EMAIL, ZAIN_ITMAX_EMAIL, LARA_ITMAX_EMAIL, MOHIT_ITMAX_EMAIL,
                     GABY_ITMAX_EMAIL, CHRISTIAN_ITMAX_EMAIL, CHARBEL_ITMAX_EMAIL};
@@ -48,7 +47,7 @@ public class EmailService {
             String date = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
             context.setVariable("date", date);
             context.setVariable("exceptionClassName", exceptionClassName);
-            context.setVariable("reason",exceptionMessage);
+            context.setVariable("reason", exceptionMessage);
 
             helper.setFrom(emailFrom);
             helper.setTo(emailTo);
