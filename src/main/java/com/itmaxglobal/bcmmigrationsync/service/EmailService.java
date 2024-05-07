@@ -53,7 +53,6 @@ public class EmailService {
             helper.setTo(emailTo);
             helper.setSubject(subject);
             helper.setCc(setCCs);
-            helper.setReplyTo(SMTP_REPLY);
 
             String html = templateEngine.process(templateName, context);
 
