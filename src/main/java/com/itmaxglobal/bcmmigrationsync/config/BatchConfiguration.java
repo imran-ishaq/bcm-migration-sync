@@ -1,7 +1,6 @@
 package com.itmaxglobal.bcmmigrationsync.config;
 
 
-
 import com.itmaxglobal.bcmmigrationsync.batchProcessing.AccountProcessor;
 import com.itmaxglobal.bcmmigrationsync.batchProcessing.AccountWriter;
 import com.itmaxglobal.bcmmigrationsync.batchProcessing.listeners.*;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.batch.BatchDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;

@@ -2,11 +2,8 @@ package com.itmaxglobal.bcmmigrationsync.bcmv2.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Imei;
-import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
-import org.springframework.stereotype.Component;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class ImeiMapper {

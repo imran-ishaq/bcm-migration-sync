@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.EMAIL_SUBJECT;
+import static com.itmaxglobal.bcmmigrationsync.util.Constants.EMAIL_TEST_TEMPLATE_NAME;
 
 @RestController
 @RequestMapping(value = "migration")

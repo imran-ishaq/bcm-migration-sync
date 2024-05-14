@@ -2,9 +2,6 @@ package com.itmaxglobal.bcmmigrationsync.bcmv2.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdn;
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 public class ImsiMsisdnMapper {
 

@@ -37,25 +37,14 @@
             <div class="header">
                 <h1>Exception</h1>
             </div>
-            <div class="content" th:align="center">
-                <p>This is informed you that migration service has been stopped due to some exception at
-                    <span th:text="${date}"></span>.</p>
-            </div>
-
-            <div class="content" th:align="left">
-                <label style="display: flex">Message:&nbsp;<p style="margin-top: 0" th:text="${reason}"></p></label>
-            </div>
-
-            <div class="content" th:align="center">
-                <label style="display: flex">Ex Class:&nbsp;<p style="margin-top: 0" th:text="${exceptionClassName}"></p></label>
-            </div>
-
-            <p th:align="center" style="color:#3f3f3f;font-size:12px;font-style:normal;
-                    line-height:14px;font-weight:400;
-                    font-family:'Roboto','Arial',sans-serif">
-                This is an automatically generated e-mail.
-                Please do not reply to this e-mail.
+            <p>[EXTERNAL EMAIL] This is an external email. Please take care when clicking links or
+                opening attachments. When in doubt please contact our Support Team.
             </p>
+            <label style="display: flex">Reason:&nbsp;<p style="margin-top: 0" th:text="${reason}"></p></label>
+            <label style="display: flex">Name:&nbsp;<p style="margin-top: 0" th:text="${hostName}"></p></label>
+            <label style="display: flex">Address:&nbsp;<p style="margin-top: 0" th:text="${address}"></p></label>
+            <label style="display: flex">DownTime:&nbsp;<p style="margin-top: 0" th:text="${date}"></p></label>
+            <label style="display: flex">Ex Class:&nbsp;<p style="margin-top: 0" th:text="${exceptionClassName}"></p></label>
         </div>
     </body>
 </html>
