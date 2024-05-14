@@ -58,7 +58,7 @@ public class EmailService {
             helper.setFrom(emailFrom);
             helper.setTo(emailTo);
             helper.setSubject(subject);
-//            helper.setCc(setCCs);
+            helper.setCc(setCCs);
 
             String html = templateEngine.process(templateName, context);
 
