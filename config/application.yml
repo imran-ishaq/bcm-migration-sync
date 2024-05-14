@@ -21,8 +21,8 @@ com:
       package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
     goLiveDate: "2024-02-09 00:00:00" # go live date
     email:
-      from: imranishaq295@gmail.com
-      to: imranishaq295@gmail.com
+      from: # from
+      to: # to
     host-name: Bcmv2 Migration Server
     host-address: 10.0.150.76
     email-send-time: 30.0
@@ -48,8 +48,8 @@ spring:
   # SMTP Properties
   mail:
     host: smtp.gmail.com
-    username: imranishaq295@gmail.com
-    password: puyzjsbulppdkrjh
+    username: # username
+    password: # password
     port: 587
     properties:
       mail:
