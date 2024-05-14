@@ -2,8 +2,6 @@ package com.itmaxglobal.bcmmigrationsync.bcmv2.mapper;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
 import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Session;
-import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
-import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.ZoneId;

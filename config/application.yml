@@ -21,8 +21,11 @@ com:
       package-scan: com.itmaxglobal.bcmmigrationsync.bcmv1.entity
     goLiveDate: "2024-02-09 00:00:00" # go live date
     email:
-      from: bcmv2.alerts@itmaxglobal.com
-      to: criticalalert@itmaxglobal.com
+      from: imranishaq295@gmail.com
+      to: imranishaq295@gmail.com
+    host-name: Bcmv2 Migration Server
+    host-address: 10.0.150.76
+    email-send-time: 30.0
 
 spring:
   jpa:
@@ -40,16 +43,17 @@ spring:
     fetch-size: 10000
     core-pool-size: 2
     max-pool-size: 2
-    jobCheck: false
+    jobCheck: true
+
   # SMTP Properties
   mail:
-    host: mail.itmaxglobal.com
-    username: bcmv2.alerts@itmaxglobal.com
-    password: P)mn2@l3rT$4M0nT3@m
-    port: 25
+    host: smtp.gmail.com
+    username: imranishaq295@gmail.com
+    password: puyzjsbulppdkrjh
+    port: 587
     properties:
       mail:
         smtp:
-          auth: false
+          auth: true
           starttls:
-            enable: false
+            enable: true

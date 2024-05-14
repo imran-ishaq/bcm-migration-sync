@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -12,18 +13,21 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.itmaxglobal.bcmmigrationsync.util.Constants.*;
 
 @Service
 @Slf4j
 public class EmailService {
+
+    @Value("${com.bcm.host-name}")
+    private String hostName;
+
+    @Value("${com.bcm.host-address}")
+    private String hostAddress;
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
@@ -46,13 +50,15 @@ public class EmailService {
 
             String date = LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
             context.setVariable("date", date);
+            context.setVariable("hostName", hostName);
+            context.setVariable("address", hostAddress);
             context.setVariable("exceptionClassName", exceptionClassName);
             context.setVariable("reason", exceptionMessage);
 
             helper.setFrom(emailFrom);
             helper.setTo(emailTo);
             helper.setSubject(subject);
-            helper.setCc(setCCs);
+//            helper.setCc(setCCs);
 
             String html = templateEngine.process(templateName, context);
 
