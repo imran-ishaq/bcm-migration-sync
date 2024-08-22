@@ -30,7 +30,7 @@ public class AccountRowMapper implements RowMapper<Account> {
         account.setSimSwapCounter(rs.getInt("sim_swap_counter"));
         account.setOperator(rs.getInt("operator"));
         account.setBlocked(rs.getBoolean("blocked"));
-        account.setAccountStatus(rs.getString("account_status") == null ? DeviceStatus.Unknown.getCode() : rs.getInt("account_status"));
+        account.setAccountStatus(rs.getString("account_status") == null ? DeviceStatus.Green.getCode() : rs.getInt("account_status"));
         account.setStatusUpdateDate(rs.getTimestamp("status_update_date") == null? null: rs.getTimestamp("status_update_date").toLocalDateTime());
         account.setIsCloned(rs.getInt("is_cloned"));
         account.setAccountOperator(rs.getInt("account_operator"));
