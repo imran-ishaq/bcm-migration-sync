@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ImsiMsisdnRepository extends JpaRepository<ImsiMsisdn, Long> {
 
-    Optional<ImsiMsisdn> findFirstByImsiAndMsisdnOrderByCreatedAtDesc(String imsi, String msisdn);
+    Optional<ImsiMsisdn> findFirstByImsiAndMsisdnOrderByCreatedAtDesc(Long imsi, String msisdn);
 
 }

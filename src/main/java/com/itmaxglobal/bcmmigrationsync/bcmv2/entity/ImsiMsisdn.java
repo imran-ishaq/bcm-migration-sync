@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "imsi_msisdn")
+@Table(name = "imsi_msisdn_new_2")
 @Getter
 @Setter
 @ToString
@@ -20,10 +20,10 @@ public class ImsiMsisdn {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "imsi", length = 100)
-    private String imsi;
+    @Column(name = "imsi")
+    private Long imsi;
 
-    @Column(name = "msisdn", length = 50)
+    @Column(name = "msisdn", length = 32)
     private String msisdn;
 
     @Column(name = "roaming")

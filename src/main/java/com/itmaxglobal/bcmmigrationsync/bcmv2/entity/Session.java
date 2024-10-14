@@ -1,6 +1,8 @@
 package com.itmaxglobal.bcmmigrationsync.bcmv2.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itmaxglobal.bcmmigrationsync.model.DeviceStatus;
+import com.itmaxglobal.bcmmigrationsync.model.DeviceStatusConverter;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "session")
+@Table(name = "session_new_2")
 @Getter
 @Setter
 @ToString
@@ -21,16 +23,16 @@ public class Session {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "imei")
+    @Column(name = "imei", length = 17)
     private String imei;
 
-    @JoinColumn(name = "imsi")
-    private String imsi;
+    @Column(name = "imsi")
+    private Long imsi;
 
-    @Column(name = "msisdn", length = 50)
+    @Column(name = "msisdn", length = 32)
     private String msisdn;
 
-    @Column(name = "model_type", length = 50)
+    @Column(name = "model_type", length = 10)
     private String modelType;
 
     @Column(name = "counterfeit")
@@ -49,14 +51,17 @@ public class Session {
     @Column(name = "roaming")
     private Integer roaming;
 
+    @Column(name = "brand_model_id")
+    private Integer brandModelId;
+
     @Column(name = "imei_quantity_support")
     private Integer imeiQuantitySupport;
-
-    @Column(name = "brand", length = 500)
-    private String brandName;
-
-    @Column(name = "model", length = 500)
-    private String model;
+//
+//    @Column(name = "brand", length = 500)
+//    private String brand;
+//
+//    @Column(name = "model", length = 500)
+//    private String model;
 
     @Column(name = "sim_swap_counter")
     private Integer simSwapCounter;
@@ -68,10 +73,11 @@ public class Session {
     private Boolean isStolen;
 
     @Column(name = "account_status")
-    private Integer imeiStatus;
+    @Convert(converter = DeviceStatusConverter.class)
+    private DeviceStatus imeiStatus;
 
     @Column(name = "status_update_date")
-    private Date statusUpdateDate;
+    private LocalDateTime statusUpdateDate;
 
     @Column(name = "is_cloned")
     private Boolean isCloned;
@@ -80,5 +86,5 @@ public class Session {
     private Integer accountOperator;
 
     @Column(name = "last_activity_date")
-    private Date lastActivityDate;
+    private LocalDateTime lastActivityDate;
 }

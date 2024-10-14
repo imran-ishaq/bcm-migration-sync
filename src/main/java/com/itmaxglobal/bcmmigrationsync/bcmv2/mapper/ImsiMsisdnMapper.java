@@ -5,21 +5,21 @@ import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdn;
 
 public class ImsiMsisdnMapper {
 
-    public static ImsiMsisdn imsiMap(Account account){
+    public static ImsiMsisdn imsiMap(Account account, int accountOperator){
         ImsiMsisdn imsiMsisdn = new ImsiMsisdn();
         imsiMsisdn.setMsisdn(account.getMsisdn());
-        imsiMsisdn.setImsi(account.getImsi());
+        imsiMsisdn.setImsi(Long.parseLong(account.getImsi()));
         imsiMsisdn.setOperator(account.getOperator());
         imsiMsisdn.setCreatedAt(account.getCreatedDate());
-        imsiMsisdn.setAccountOperator(account.getAccountOperator());
+        imsiMsisdn.setAccountOperator(accountOperator);
         imsiMsisdn.setRoaming(account.isRoaming());
         imsiMsisdn.setRegisteringDate(account.getRegisteringDate());
         imsiMsisdn.setUpdatedAt(account.getUpdatedDate());
         return imsiMsisdn;
     }
 
-    public static ImsiMsisdn existingImsiMap(ImsiMsisdn existingImsi, Account account){
-        ImsiMsisdn imsiMsisdn = imsiMap(account);
+    public static ImsiMsisdn existingImsiMap(ImsiMsisdn existingImsi, Account account, int accountOperator){
+        ImsiMsisdn imsiMsisdn = imsiMap(account, accountOperator);
         imsiMsisdn.setId(existingImsi.getId());
         return imsiMsisdn;
     }
