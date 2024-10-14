@@ -23,16 +23,16 @@ public class Session {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "imei", length = 17)
+    @Column(name = "imei")
     private String imei;
 
     @Column(name = "imsi")
     private Long imsi;
 
-    @Column(name = "msisdn", length = 32)
+    @Column(name = "msisdn")
     private String msisdn;
 
-    @Column(name = "model_type", length = 10)
+    @Column(name = "model_type")
     private String modelType;
 
     @Column(name = "counterfeit")
@@ -56,12 +56,6 @@ public class Session {
 
     @Column(name = "imei_quantity_support")
     private Integer imeiQuantitySupport;
-//
-//    @Column(name = "brand", length = 500)
-//    private String brand;
-//
-//    @Column(name = "model", length = 500)
-//    private String model;
 
     @Column(name = "sim_swap_counter")
     private Integer simSwapCounter;

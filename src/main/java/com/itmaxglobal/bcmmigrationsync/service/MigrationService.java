@@ -33,7 +33,6 @@ public class MigrationService {
     private Double emailSendTime;
 
     private final SessionRepository sessionRepository;
-    private final ImeiRepository imeiRepository;
     private final ImsiMsisdnRepository imsiMsisdnRepository;
     private final SessionHistoryRepository sessionHistoryRepository;
     private final BrandModelRepository brandModelRepository;
@@ -48,10 +47,9 @@ public class MigrationService {
 
     @Lazy
     @Autowired
-    public MigrationService(ImeiRepository imeiRepository, ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository, SessionHistoryRepository sessionHistoryRepository, BrandModelRepository brandModelRepository, ImsiOperatorConfigRepository imsiOperatorConfigRepository, EmailUtil emailUtil){
+    public MigrationService(ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository, SessionHistoryRepository sessionHistoryRepository, BrandModelRepository brandModelRepository, ImsiOperatorConfigRepository imsiOperatorConfigRepository, EmailUtil emailUtil){
         this.sessionRepository = sessionRepository;
         this.imsiMsisdnRepository = imsiMsisdnRepository;
-        this.imeiRepository = imeiRepository;
         this.sessionHistoryRepository = sessionHistoryRepository;
         this.brandModelRepository = brandModelRepository;
         this.imsiOperatorConfigRepository = imsiOperatorConfigRepository;
@@ -62,7 +60,6 @@ public class MigrationService {
             lastEmailSentTime = Instant.now();
             Optional<ImsiOperatorConfig> imsiOperatorConfig;
             Optional<BrandModel> brandModel = brandModelRepository.findByTacNumber(account.getImei().substring(0, 8));
-//            Optional<Imei> imei = imeiRepository.findFirstByImeiOrderByCreatedAtDesc(account.getImei());
             Optional<ImsiMsisdn> imsiMsisdn = imsiMsisdnRepository.findFirstByImsiAndMsisdnOrderByCreatedAtDesc(Long.parseLong(account.getImsi()), account.getMsisdn());
             Optional<Session> session = sessionRepository.findFirstByImei(account.getImei());
             Integer brandModelId = 0;
@@ -80,12 +77,6 @@ public class MigrationService {
             } else {
                 brandModelId = brandModelRepository.save(BrandModelMapper.toEntity(account)).getBrandModelId();
             }
-
-//            if(imei.isPresent()){
-//                imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account, brandModelId));
-//            } else {
-//                imeiRepository.save(ImeiMapper.imeiMap(account, brandModelId));
-//            }
 
             if(imsiMsisdn.isPresent()){
                 imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account, accountOperator));

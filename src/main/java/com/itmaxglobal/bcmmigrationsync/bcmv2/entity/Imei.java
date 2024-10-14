@@ -11,8 +11,6 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
-@Table(name = "imei_new_2")
 @Getter
 @Setter
 @ToString
