@@ -1,15 +1,9 @@
 package com.itmaxglobal.bcmmigrationsync.service;
 
 import com.itmaxglobal.bcmmigrationsync.bcmv1.entity.Account;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Imei;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.ImsiMsisdn;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.Session;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImeiMapper;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.ImsiMsisdnMapper;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.SessionMapper;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImeiRepository;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.ImsiMsisdnRepository;
-import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.SessionRepository;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.entity.*;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.mapper.*;
+import com.itmaxglobal.bcmmigrationsync.bcmv2.repository.*;
 import com.itmaxglobal.bcmmigrationsync.util.EmailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TransactionException;
@@ -39,8 +33,10 @@ public class MigrationService {
     private Double emailSendTime;
 
     private final SessionRepository sessionRepository;
-    private final ImeiRepository imeiRepository;
     private final ImsiMsisdnRepository imsiMsisdnRepository;
+    private final SessionHistoryRepository sessionHistoryRepository;
+    private final BrandModelRepository brandModelRepository;
+    private final ImsiOperatorConfigRepository imsiOperatorConfigRepository;
     private final EmailUtil emailUtil;
     private Instant lastEmailSentTime;
     private boolean emailSentFlag = true;
@@ -51,41 +47,52 @@ public class MigrationService {
 
     @Lazy
     @Autowired
-    public MigrationService(ImeiRepository imeiRepository, ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository, EmailUtil emailUtil){
+    public MigrationService(ImsiMsisdnRepository imsiMsisdnRepository, SessionRepository sessionRepository, SessionHistoryRepository sessionHistoryRepository, BrandModelRepository brandModelRepository, ImsiOperatorConfigRepository imsiOperatorConfigRepository, EmailUtil emailUtil){
         this.sessionRepository = sessionRepository;
         this.imsiMsisdnRepository = imsiMsisdnRepository;
-        this.imeiRepository = imeiRepository;
+        this.sessionHistoryRepository = sessionHistoryRepository;
+        this.brandModelRepository = brandModelRepository;
+        this.imsiOperatorConfigRepository = imsiOperatorConfigRepository;
         this.emailUtil = emailUtil;
     }
     public Account startMigration(Account account) {
         try {
             lastEmailSentTime = Instant.now();
-            Optional<Imei> imei = imeiRepository.findFirstByImeiOrderByCreatedAtDesc(account.getImei());
-            Optional<ImsiMsisdn> imsiMsisdn = imsiMsisdnRepository.findFirstByImsiAndMsisdnOrderByCreatedAtDesc(account.getImsi(), account.getMsisdn());
-            Optional<Session> session = sessionRepository.findFirstByImeiAndImsiAndMsisdnOrderByCreatedAtDesc(account.getImei(), account.getImsi(), account.getMsisdn());
+            Optional<ImsiOperatorConfig> imsiOperatorConfig;
+            Optional<BrandModel> brandModel = brandModelRepository.findByTacNumber(account.getImei().substring(0, 8));
+            Optional<ImsiMsisdn> imsiMsisdn = imsiMsisdnRepository.findFirstByImsiAndMsisdnOrderByCreatedAtDesc(Long.parseLong(account.getImsi()), account.getMsisdn());
+            Optional<Session> session = sessionRepository.findFirstByImei(account.getImei());
+            Integer brandModelId = 0;
+            int accountOperator = 0;
 
-            if(imei.isPresent()){
-                imeiRepository.save(ImeiMapper.existingImeiMap(imei.get(), account));
+            if(Boolean.TRUE.equals(account.isRoaming())){
+                accountOperator = account.getOperator();
             } else {
-                imeiRepository.save(ImeiMapper.imeiMap(account));
+                imsiOperatorConfig = imsiOperatorConfigRepository.findByImsiPrefix(account.getImsi().substring(0, 5));
+                accountOperator = imsiOperatorConfig.map(ImsiOperatorConfig::getOperatorId).orElseGet(account::getOperator);
+            }
+
+            if (brandModel.isPresent()){
+                brandModelId = brandModel.get().getBrandModelId();
+            } else {
+                brandModelId = brandModelRepository.save(BrandModelMapper.toEntity(account)).getBrandModelId();
             }
 
             if(imsiMsisdn.isPresent()){
-                imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account));
+                imsiMsisdnRepository.save(ImsiMsisdnMapper.existingImsiMap(imsiMsisdn.get(), account, accountOperator));
             } else {
-                imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account));
+                imsiMsisdnRepository.save(ImsiMsisdnMapper.imsiMap(account, accountOperator));
             }
 
             if(session.isPresent()){
-                if(Objects.nonNull(session.get().getLastActivityDate()) && Objects.nonNull(account.getLastActivityDate())){
-                    LocalDateTime lastActivityDateFromSession = session.get().getLastActivityDate()
-                            .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    if(!this.checkDateDifferenceInMinutes(account.getLastActivityDate(), lastActivityDateFromSession)){
-                        sessionRepository.save(SessionMapper.existingSessionMap(session.get(), account));
-                    }
+                if (account.getImsi().equals(session.get().getImsi().toString()) && account.getMsisdn().equals(session.get().getMsisdn())){
+                    sessionRepository.save(SessionMapper.toUpdate(session.get(), account, accountOperator, brandModelId, false));
+                } else {
+                    sessionHistoryRepository.save(SessionHistoryMapper.toEntity(session.get()));
+                    sessionRepository.save(SessionMapper.toUpdate(session.get(), account, accountOperator, brandModelId, true));
                 }
             } else {
-                sessionRepository.save(SessionMapper.sessionMap(account));
+                sessionRepository.save(SessionMapper.toEntity(account, accountOperator, brandModelId));
             }
             lastEmailSentTime = Instant.now();
             return account;
