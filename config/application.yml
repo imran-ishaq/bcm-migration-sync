@@ -46,8 +46,8 @@ spring:
     chunk-size: 10000
     page-size: 10000
     fetch-size: 10000
-    #core-pool-size: 2
-    #max-pool-size: 2
+    core-pool-size: 2
+    max-pool-size: 2
     jobCheck: true
 
   # SMTP Properties

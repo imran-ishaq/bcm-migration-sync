@@ -40,11 +40,11 @@ public class BatchConfiguration {
     @Value("${spring.batch.chunk-size}")
     int chunkSize;
 
-//    @Value("${spring.batch.core-pool-size}")
-//    int setCorePoolSize;
-//
-//    @Value("${spring.batch.max-pool-size}")
-//    int setMaxPoolSize;
+    @Value("${spring.batch.core-pool-size}")
+    int setCorePoolSize;
+
+    @Value("${spring.batch.max-pool-size}")
+    int setMaxPoolSize;
 
     @Autowired
     public BatchConfiguration(ItemReader<Account> accountReader, AccountProcessor accountProcessor,
@@ -83,7 +83,7 @@ public class BatchConfiguration {
                 .reader(accountReader)
                 .processor(accountProcessor)
                 .writer(accountWriter)
-//                .taskExecutor(taskExecutor)
+                .taskExecutor(taskExecutor())
                 .listener(customChunkListener)
                 .listener(customItemProcessListener)
                 .listener(customItemReadListener)
@@ -99,12 +99,12 @@ public class BatchConfiguration {
                 .start(step)
                 .build();
     }
-//    @Bean
-//    public TaskExecutor taskExecutor() {
-//        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-//        taskExecutor.setCorePoolSize(setCorePoolSize);
-//        taskExecutor.setMaxPoolSize(setMaxPoolSize);
-//        taskExecutor.afterPropertiesSet();
-//        return taskExecutor;
-//    }
+    @Bean
+    public TaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(setCorePoolSize);
+        taskExecutor.setMaxPoolSize(setMaxPoolSize);
+        taskExecutor.afterPropertiesSet();
+        return taskExecutor;
+    }
 }
