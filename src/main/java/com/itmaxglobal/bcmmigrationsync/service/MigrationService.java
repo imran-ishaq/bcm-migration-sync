@@ -85,7 +85,7 @@ public class MigrationService {
             }
 
             if(session.isPresent()){
-                if (account.getImsi().equals(session.get().getImsi().toString()) && account.getMsisdn().equals(session.get().getMsisdn())){
+                if (account.getImsi().equals(session.get().getImsi().toString())){
                     sessionRepository.save(SessionMapper.toUpdate(session.get(), account, accountOperator, brandModelId, false));
                 } else {
                     sessionHistoryRepository.save(SessionHistoryMapper.toEntity(session.get()));
