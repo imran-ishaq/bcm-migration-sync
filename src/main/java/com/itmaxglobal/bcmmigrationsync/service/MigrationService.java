@@ -73,6 +73,12 @@ public class MigrationService {
             }
 
             if (brandModel.isPresent()){
+                if(!Objects.deepEquals(brandModel.get().getBrand(), account.getBrand())
+                        || !Objects.deepEquals(brandModel.get().getModel(), account.getModel())) {
+                    brandModel.get().setBrand(account.getBrand());
+                    brandModel.get().setModel(account.getModel());
+                    brandModelRepository.save(brandModel.get());
+                }
                 brandModelId = brandModel.get().getBrandModelId();
             } else {
                 brandModelId = brandModelRepository.save(BrandModelMapper.toEntity(account)).getBrandModelId();
