@@ -42,7 +42,7 @@ public class BatchQueryService {
             queryProviderFactoryBean.setDataSource(dataSource);
             queryProviderFactoryBean.setSelectClause(ACCOUNT_SELECT_CLAUSE);
             queryProviderFactoryBean.setFromClause(ACCOUNT_FROM_CLAUSE);
-            queryProviderFactoryBean.setWhereClause(ACCOUNT_WHERE_CLAUSE);
+            queryProviderFactoryBean.setWhereClause(ACCOUNT_MISSING_WHERE_CLAUSE);
             queryProviderFactoryBean.setSortKey(ACCOUNT_SORT_KEY);
 
             JdbcPagingItemReader<Account> itemReader = new JdbcPagingItemReader<>();

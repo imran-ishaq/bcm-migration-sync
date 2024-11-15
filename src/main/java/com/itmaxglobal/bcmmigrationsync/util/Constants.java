@@ -15,6 +15,7 @@ public class Constants {
     public static final String ACCOUNT_SELECT_CLAUSE = "select ac.*, aa.last_activity_date as last_activity_date_from_account_activity ";
     public static final String ACCOUNT_FROM_CLAUSE = "from bcm.billing.account ac left join bcm.billing.account_activity aa on ac.id = aa.account_id ";
     public static final String ACCOUNT_WHERE_CLAUSE = " where ac.is_migrated = 0";
+    public static final String ACCOUNT_MISSING_WHERE_CLAUSE = " where ac.created_date >= '2024-11-13 06:11:04' and ac.created_date <= '2024-11-13 08:35:22'";
     public static final String ACCOUNT_SORT_KEY = "id";
 
     public static final String EMAIL_SUBJECT = "Migration Service";
